@@ -53,7 +53,7 @@ function bindSubmitOnceForms() {
       button.disabled = true;
     });
   });
-}
+
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.bsTheme = theme;
@@ -63,11 +63,11 @@ function applyTheme(theme) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderEmiChart();
+
   bindSubmitOnceForms();
   const saved = localStorage.getItem("smartloan-theme") || "light";
   applyTheme(saved);
   document.getElementById("themeToggle")?.addEventListener("click", () => {
     applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
   });
-});
+});}

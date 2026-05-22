@@ -470,7 +470,6 @@ a:hover { color: var(--primary-strong); }
   .status-stack { justify-items: start; }
   .info-grid, .document-form { grid-template-columns: 1fr; }
   .action-cell { min-width: 260px; }
-}
 
 .finalized-card {
   border: 1px solid var(--line);
@@ -483,4 +482,6 @@ a:hover { color: var(--primary-strong); }
   background: color-mix(in srgb, var(--muted) 22%, var(--panel-solid));
   color: var(--text);
   opacity: 0.85;
+
+}
 }
