@@ -53,21 +53,31 @@ function bindSubmitOnceForms() {
       button.disabled = true;
     });
   });
+}
+  
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
   document.documentElement.dataset.bsTheme = theme;
   localStorage.setItem("smartloan-theme", theme);
+
   const toggle = document.getElementById("themeToggle");
-  if (toggle) toggle.textContent = theme === "dark" ? "Light" : "Dark";
+  if (toggle) {
+    toggle.textContent = theme === "dark" ? "Light" : "Dark";
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
   bindSubmitOnceForms();
+
   const saved = localStorage.getItem("smartloan-theme") || "light";
   applyTheme(saved);
+
   document.getElementById("themeToggle")?.addEventListener("click", () => {
-    applyTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+    applyTheme(
+      document.documentElement.dataset.theme === "dark"
+       ? "light" 
+       : "dark"
+      );
   });
-});}
+});
