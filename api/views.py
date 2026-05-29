@@ -111,10 +111,10 @@ def landing_page(request):
 def email_debug(request):
     return HttpResponse(
         f"""
-EMAIL_HOST_USER={settings.EMAIL_HOST_USER}<br>
-DEFAULT_FROM_EMAIL={settings.DEFAULT_FROM_EMAIL}<br>
+BREVO_USER={settings.EMAIL_HOST_USER}<br>
 PASSWORD_EXISTS={bool(settings.EMAIL_HOST_PASSWORD)}<br>
-EMAIL_BACKEND={settings.EMAIL_BACKEND}
+HOST={settings.EMAIL_HOST}<br>
+PORT={settings.EMAIL_PORT}
 """
     )
 
@@ -123,15 +123,17 @@ def test_email(request):
         result = send_mail(
             "SmartLoan Render Test",
             "This email was sent from Render.",
-            settings.DEFAULT_FROM_EMAIL,
+            "anandshreya1803@gmail.com",
             ["anandshreya1803@gmail.com"],
             fail_silently=False,
         )
-
         return HttpResponse(f"SUCCESS: Result={result}")
 
     except Exception as e:
-        return HttpResponse(f"ERROR: {str(e)}")
+        return HttpResponse(
+            f"ERROR TYPE: {type(e).__name__}<br>"
+            f"ERROR MSG: {str(e)}"
+        )
 
 @require_http_methods(["GET", "POST"])
 def register_view(request):
