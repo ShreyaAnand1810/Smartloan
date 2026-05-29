@@ -13,6 +13,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.conf import settings
 from django.http import HttpResponse
 
 
@@ -106,16 +107,14 @@ def landing_page(request):
     seed_loan_types()
     return render(request, "landing.html", {"loan_types": LoanType.objects.all()})
 
-def check_user(request):
-    email = "anandshreya1803@gmail.com"
-
-    users = User.objects.filter(
-        email__iexact=email,
-        is_active=True
-    )
-
+def email_debug(request):
     return HttpResponse(
-        f"Count={users.count()}"
+        f"""
+EMAIL_HOST_USER={settings.EMAIL_HOST_USER}<br>
+DEFAULT_FROM_EMAIL={settings.DEFAULT_FROM_EMAIL}<br>
+PASSWORD_EXISTS={bool(settings.EMAIL_HOST_PASSWORD)}<br>
+EMAIL_BACKEND={settings.EMAIL_BACKEND}
+"""
     )
 
 @require_http_methods(["GET", "POST"])
