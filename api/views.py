@@ -119,15 +119,19 @@ EMAIL_BACKEND={settings.EMAIL_BACKEND}
     )
 
 def test_email(request):
-    result = send_mail(
-        "SmartLoan Render Test",
-        "This email was sent from Render.",
-        settings.DEFAULT_FROM_EMAIL,
-        ["anandshreya1803@gmail.com"],
-        fail_silently=False,
-    )
-    return HttpResponse(f"Result={result}")
+    try:
+        result = send_mail(
+            "SmartLoan Render Test",
+            "This email was sent from Render.",
+            settings.DEFAULT_FROM_EMAIL,
+            ["anandshreya1803@gmail.com"],
+            fail_silently=False,
+        )
 
+        return HttpResponse(f"SUCCESS: Result={result}")
+
+    except Exception as e:
+        return HttpResponse(f"ERROR: {str(e)}")
 
 @require_http_methods(["GET", "POST"])
 def register_view(request):
