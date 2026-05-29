@@ -1,13 +1,39 @@
 from datetime import timedelta
 from decimal import Decimal
 from random import sample
-from django.conf import settings
+import os
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 
-from django.core.mail import send_mail
 from django.db.models import Count, Sum
 from django.utils import timezone
 
 from .models import EMIRecord, LoanApplication, LoanType, Notification
+
+def send_brevo_email(to_email, subject, message):
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key["api-key"] = os.getenv("BREVO_API_KEY")
+
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
+    )
+
+    email = sib_api_v3_sdk.SendSmtpEmail(
+        to=[{"email": to_email}],
+        sender={
+            "name": "SmartLoan",
+            "email": "anandshreya1803@gmail.com"
+        },
+        subject=subject,
+        text_content=message,
+    )
+
+    try:
+        api_instance.send_transac_email(email)
+        return True
+    except ApiException as e:
+        print("Brevo Error:", e)
+        return False
 
 FINANCIAL_TIPS = [
     {
@@ -110,12 +136,10 @@ def notify(user, title, message, email=False):
     )
 
     if email and user.email:
-        send_mail(
+        send_brevo_email(
+            user.email,
             title,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [user.email],
-            fail_silently=False
+            message
         )
 
 def session_financial_tips(request, count=3):
