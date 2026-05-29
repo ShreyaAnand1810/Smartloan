@@ -23,6 +23,7 @@ urlpatterns = [
     path("documents/<int:pk>/verify/", views.verify_document_view, name="verify_document"),
     path("api/", include("api.urls")),
     path("email-debug/", views.email_debug, name="email_debug"),
+    path("test-email/", views.test_email, name="test_email"),
 ]
 
 if settings.DEBUG:

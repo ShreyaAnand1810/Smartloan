@@ -13,6 +13,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponse
 
@@ -116,6 +117,17 @@ PASSWORD_EXISTS={bool(settings.EMAIL_HOST_PASSWORD)}<br>
 EMAIL_BACKEND={settings.EMAIL_BACKEND}
 """
     )
+
+def test_email(request):
+    result = send_mail(
+        "SmartLoan Render Test",
+        "This email was sent from Render.",
+        settings.DEFAULT_FROM_EMAIL,
+        ["anandshreya1803@gmail.com"],
+        fail_silently=False,
+    )
+    return HttpResponse(f"Result={result}")
+
 
 @require_http_methods(["GET", "POST"])
 def register_view(request):
