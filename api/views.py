@@ -13,6 +13,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.http import HttpResponse
 
 
 from ml_model.predictor import predict_loan
@@ -105,6 +106,17 @@ def landing_page(request):
     seed_loan_types()
     return render(request, "landing.html", {"loan_types": LoanType.objects.all()})
 
+def check_user(request):
+    email = "anandshreya1803@gmail.com"
+
+    users = User.objects.filter(
+        email__iexact=email,
+        is_active=True
+    )
+
+    return HttpResponse(
+        f"Count={users.count()}"
+    )
 
 @require_http_methods(["GET", "POST"])
 def register_view(request):

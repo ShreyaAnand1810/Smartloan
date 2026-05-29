@@ -22,6 +22,7 @@ urlpatterns = [
     path("loans/<int:pk>/review/", views.review_application_view, name="review_application"),
     path("documents/<int:pk>/verify/", views.verify_document_view, name="verify_document"),
     path("api/", include("api.urls")),
+    path("check-user/", views.check_user, name="check_user"),
 ]
 
 if settings.DEBUG:
