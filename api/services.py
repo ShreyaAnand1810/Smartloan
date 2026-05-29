@@ -1,6 +1,7 @@
 from datetime import timedelta
 from decimal import Decimal
 from random import sample
+from django.conf import settings
 
 from django.core.mail import send_mail
 from django.db.models import Count, Sum
@@ -101,10 +102,21 @@ def create_emi_schedule(application):
 
 
 def notify(user, title, message, email=False):
-    Notification.objects.create(user=user, title=title, message=message, channel="EMAIL" if email else "IN_APP")
-    if email and user.email:
-        send_mail(title, message, None, [user.email], fail_silently=True)
+    Notification.objects.create(
+        user=user,
+        title=title,
+        message=message,
+        channel="EMAIL" if email else "IN_APP"
+    )
 
+    if email and user.email:
+        send_mail(
+            title,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False
+        )
 
 def session_financial_tips(request, count=3):
     tips = sample(FINANCIAL_TIPS, k=min(count, len(FINANCIAL_TIPS)))
