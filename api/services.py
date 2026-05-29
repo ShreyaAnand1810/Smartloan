@@ -29,10 +29,12 @@ def send_brevo_email(to_email, subject, message):
     )
 
     try:
-        api_instance.send_transac_email(email)
+        response = api_instance.send_transac_email(email)
+        print("BREVO SUCCESS:", response)
         return True
-    except ApiException as e:
-        print("Brevo Error:", e)
+
+    except Exception as e:
+        print("BREVO ERROR:", repr(e))
         return False
 
 FINANCIAL_TIPS = [
